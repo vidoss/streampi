@@ -39,7 +39,6 @@ require(["jquery",
          "public/js/app/namespace.js",
          "public/js/app/nls.js",
          "public/js/app/router.js",
-         "public/js/app/login.js",
          "public/js/app/home.js"
       ], function($) {
 

@@ -177,5 +177,5 @@
 
 	});
 
-})(jQuery, FLIXBUD.namespace("main"));
+})(jQuery, STREAMPI.namespace("main"));
 

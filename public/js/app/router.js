@@ -3,10 +3,11 @@
 	var AppRouter = Backbone.Router.extend({
 
 		routes: {
-			"login_signup": "onLoginSignup",
-			"oauth"    : "oauthCallback",
-			"user/:id" : "userHome",
-			"*actions"  : "defaultRoute"
+			"home"			: "onHome",
+			"oauth"    	 	: "onOauthCallback",
+			"pi/:pid"	 	: "onPiHome",
+			"user/:id" 		: "onUserHome",
+			"*actions"  	: "defaultRoute"
 		},
 
 		defaultRoute: function( actions ) {
@@ -20,18 +21,14 @@
 				});
 				return;
 			}
-			ns.appRouter.navigate("login_signup",{trigger: true});
+			ns.appRouter.navigate("home",{trigger: true});
 		},
 
-		onLoginSignup: function() {
-			if (!ns.objs.views.signup) {
-				ns.objs.views.signup = new ns.SignupView();
-				ns.objs.views.login = new ns.LoginView();
-			}
-			this.showPage("#login_signup");
+		onHome: function() {
+			this.showPage("#home");
 		},
 
-		oauthCallback: function( actions ) {
+		onOauthCallback: function( actions ) {
 			// user should be logged in at this point.
 			if (!StackMob.getLoggedInUser()) {
 				ns.appRouter.navigate("",{trigger: true});
@@ -47,51 +44,22 @@
 				if (oauth_token) {
 					oauth_token = encodeURIComponent(oauth_token.split("=")[1]);
 					bar.animate({width: "90%"},1000);
-					_.delay(function() {
+					//_.delay(function() {
 						StackMob.customcode('oauth_token',{token: oauth_token},{
 							success: function(result) {
-								bar.width("100%");
+								bar.stop(true,true).width("100%");
 								window.location = "/#user/"+result.userId;
 							}
 						});
-					}, 1000);
+					//}, 1000);
 				}
 			}
 		},
 
-		userHome: function( userId ) {
+		onUserHome: function( userId ) {
 			if (!userId || !StackMob.getLoggedInUser()) {
 				ns.appRouter.navigate("",{trigger: true});
 				return;
-			}
-
-			var initViews = function(userModel) {
-				if (!ns.objs.views.topNavbar) {
-					try {
-						ns.objs.views.topNavbar = new ns.TopNavbarView({model: userModel});
-						ns.objs.views.userProfile = new ns.UserProfileEditView({user: userModel});
-					} catch(e) {
-						console.error(e);
-					}
-				}
-			};
-
-			if (ns.objs.models.currentUser) {
-				initViews(ns.objs.models.currentUser);
-			} else {
-				var user = new StackMob.User({username: StackMob.getLoggedInUser()});
-				user.fetch({
-					success: function(model) {
-						ns.objs.models.currentUser = initViews(model);
-					},
-					error: function() {
-						user.logout({
-							success: function() {
-								window.location = "/";
-							}
-						});
-					}
-				});
 			}
 
 			this.showPage("#user_home");
@@ -106,10 +74,10 @@
 
 	$(function() {
 		StackMob.init({
-    		appName: "foobar",
-    		clientSubdomain: "victordoss",
-    		publicKey: "bdbf02ea-2def-4a89-8708-2f6c90f834a4",
-    		apiVersion: 0
+			appName: "streampi",
+			clientSubdomain: "victordoss",
+			publicKey: "f82a0708-f69b-49b5-8201-1b0d7003ebf6",
+			apiVersion: 0
 		});
 		ns.objs = {views:{},models:{}};
 		ns.appRouter = new AppRouter();
