@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Flix Buddy</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="public/css/bootstrap.css" rel="stylesheet">
+    <style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+    </style>
+    <link href="public/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="public/css/app.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+	 <!--
+    <link rel="shortcut icon" href="public/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="public/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="public/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="public/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="public/ico/apple-touch-icon-57-precomposed.png">
+    -->
+  </head>
+
+  <body>
+	 <div id="login_signup" class="container-fluid hidden page">
+		<div class="row-fluid">
+			<div class="span7">
+				<h1 style="font: 300 56px Lato;">Flix Buddy</h1>
+				<p class="lead">Connect with other Netflix users of similar movie taste.<p>
+				<blockquote>
+				<ul class="unstyled">
+					<li>Browse what they liked</li>
+					<li>Talk about movies / TV shows</li>
+				</ul>
+				</blockquote>
+			</div>
+			<div id="login-signup" class="span3">
+    			<form id="login" class="well form-horizontal">
+    				<legend>Login</legend>
+					<fieldset>
+						<div class="control-group">
+    						<input type="text" placeholder="Email" class="input-large username">
+							<span class="help-inline hidden">Invalid email address!</span>
+						</div>
+						<div class="control-group">
+    						<input type="password" placeholder="Password" class="input-large password">
+							<span class="help-inline hidden">Empty password!</span>
+						</div>
+						<div class="control-group pull-right">
+							<span class="help-inline hidden">Login failed!</span>
+							<button class="btn btn-primary btn-large" type="submit">Login</button>
+						</div>
+					</fieldset>
+				</form>
+    			<form id="signup" class="well form-horizontal">
+    				<legend>Sign Up</legend>
+					<fieldset>
+						<div class="control-group">
+    						<input type="text" placeholder="Email" class="input-large username">
+							<span class="help-inline hidden">Invalid email address!</span>
+						</div>
+						<div class="control-group">
+    						<input type="password" placeholder="Password" class="input-large password">
+							<span class="help-inline hidden">Empty password!</span>
+						</div>
+						<div class="control-group pull-right">
+							<span class="help-inline hidden">Email exists! Try Login  </span>
+							<button class="btn btn-primary btn-large" type="submit">Sign Up</button>
+						</div>
+					</fieldset>
+				</form>
+			</div>
+		</div>
+	 </div>
+	<div id="oauth" class="container-fluid hidden page">
+		<div class="row-fluid">
+			<div class="alert alert-success">
+				<h4> Loading .... </h4>
+				<div class="progress progress-striped active">
+					<div class="bar" style="width: 10%;"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal hide" id="connect-modal">
+		<div class="modal-body">
+			<form>
+				<fieldset>
+				<div class="control-group handle">
+					<label class="control-label">
+						<strong>Pick an username:</strong> (users of this site will identify you by this username)
+					</label>
+					<div class="controls">
+						<h1 class="help-inline" class="pull-left">@</h1><input type="text" class="span5" id="handle"/>
+					</div>
+					<p class="help-block"></p>
+				</div>
+				<div class="control-group">
+					<label class="control-label">&nbsp;</label>
+					<div class="controls">
+					</div>
+					<p class="help-block alert alert-info">
+						When you click "Link with Netflix" you will be redirected to Netflix website. 
+						Please select "Yes, Link This Account" so we can connect you with other
+						Netflix users of similar movies and TV show preference.
+				</div>
+				</fieldset>
+			</form>
+			<button id="netflix-connect" class="btn btn-large btn-danger pull-right">
+				Link with Netflix
+			</button>
+		</div>
+	</div>
+	<div id="user_home" class="hidden page">
+		<div class="navbar navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container">
+					<ul class="nav">
+						<li class="active">
+							<h2 id="handle_display">@</h2>
+						</li>
+					</ul>
+					<ul class="nav pull-right">
+						<li class="active">
+							<div id="logout" class="btn btn-inverse">Logout</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="container-fluid" id="user_main">
+			<div class="row-fluid">
+				<div class="tabbable tabs-left">
+					<ul class="nav nav-tabs">
+						<li class="active"><a data-toggle="tab" class="hero-unit" href="#ninety"><span class="badge badge-important pull-right hidden">0</span><h1>90%</h1></a></li>
+						<li><a data-toggle="tab" class="hero-unit" href="#eighty"><span class="badge badge-important pull-right hidden">0</span><h1>80%</h1></a></li>
+						<li><a data-toggle="tab" class="hero-unit" href="#seventy"><span class="badge badge-important pull-right hidden">0</span><h1>70%</h1></a></li>
+						<li><a data-toggle="tab" class="hero-unit" href="#sixty"><span class="badge badge-important pull-right hidden">0</span><h1>60%</h1></a></li>
+						<li><a data-toggle="tab" class="hero-unit" href="#fifty"><span class="badge badge-important pull-right hidden">0</span><h1>50%</h1></a></li>
+						<li><a data-toggle="tab" class="hero-unit" href="#fourty"><span class="badge badge-important pull-right hidden">0</span><h1>40%</h1></a></li>
+						<li><a data-toggle="tab" class="hero-unit" href="#thirty"><span class="badge badge-important pull-right hidden">0</span><h1>30%</h1></a></li>
+						<li><a data-toggle="tab" class="hero-unit" href="#twenty"><span class="badge badge-important pull-right hidden">0</span><h1>20%</h1></a></li>
+						<li><a data-toggle="tab" class="hero-unit" href="#ten"><span class="badge badge-important pull-right hidden">0</span><h1>10%</h1></a></li>
+					</ul>
+					<div class="tab-content">
+						<div class="tab-pane active" id="ninety"></div>
+						<div class="tab-pane" id="eighty"></div>
+						<div class="tab-pane" id="seventy"></div>
+						<div class="tab-pane" id="sixty"></div>
+						<div class="tab-pane" id="fifty"></div>
+						<div class="tab-pane" id="fourty"></div>
+						<div class="tab-pane" id="thirty"></div>
+						<div class="tab-pane" id="twenty"></div>
+						<div class="tab-pane" id="ten"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal hide" id="profile_modal">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h3>Update your movie profile:</h3>
+			</div>
+			<div class="modal-body">
+				<div id="movie_profile">
+			<ul class="thumbnails">
+            <li class="">
+              <a href="#" class="thumbnail like empty">
+                <img src="http://placehold.it/110x150&text=Like" alt="">
+              </a>
+            </li>
+            <li class="">
+              <a href="#" class="thumbnail like empty">
+                <img src="http://placehold.it/110x150&text=Like" alt="">
+              </a>
+            </li>
+            <li class="">
+              <a href="#" class="thumbnail ok empty">
+                <img src="http://placehold.it/64x90&text=ok" alt="">
+              </a>
+            </li>
+            <li class="">
+              <a href="#" class="thumbnail ok empty">
+                <img src="http://placehold.it/64x90&text=ok" alt="">
+              </a>
+            </li>
+            <li class="">
+              <a href="#" class="thumbnail ok empty">
+                <img src="http://placehold.it/64x90&text=ok" alt="">
+              </a>
+            </li>
+            <li class="">
+              <a href="#" class="thumbnail ok empty">
+                <img src="http://placehold.it/64x90&text=ok" alt="">
+              </a>
+            </li>
+            <li class="">
+              <a href="#" class="thumbnail ok empty">
+                <img src="http://placehold.it/64x90&text=ok" alt="">
+              </a>
+            </li>
+            <li class="">
+              <a href="#" class="thumbnail neeh empty">
+                <img src="http://placehold.it/38x53&neeh" alt="">
+              </a>
+            </li>
+            <li class="">
+              <a href="#" class="thumbnail neeh empty">
+                <img src="http://placehold.it/38x53&neeh" alt="">
+              </a>
+            </li>
+            <li class="">
+              <a href="#" class="thumbnail neeh empty">
+                <img src="http://placehold.it/38x53&neeh" alt="">
+              </a>
+            </li>
+            <li class="">
+              <a href="#" class="thumbnail neeh empty">
+                <img src="http://placehold.it/38x53&neeh" alt="">
+              </a>
+            </li>
+            <li class="">
+              <a href="#" class="thumbnail neeh empty">
+                <img src="http://placehold.it/38x53&neeh" alt="">
+              </a>
+            </li>
+            <li class="">
+              <a href="#" class="thumbnail neeh empty">
+                <img src="http://placehold.it/38x53&neeh" alt="">
+              </a>
+            </li>
+            <li class="">
+              <a href="#" class="thumbnail neeh empty">
+                <img src="http://placehold.it/38x53&neeh" alt="">
+              </a>
+            </li>
+            <li class="">
+              <a href="#" class="thumbnail neeh empty">
+                <img src="http://placehold.it/38x53&neeh" alt="">
+              </a>
+            </li>
+          </ul>
+				</div>
+				<div class="well">
+					<h4>Add from your recently watched list:</h4>
+					<div id="recently_watched">
+						<div class="row">
+							<ul class="thumbnails">
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<a href="#" class="btn btn-primary" id="save_profile">Save changes</a>
+			</div>
+		</div>
+	</div>
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+	 <script type="text/javascript" data-main="public/js/main.js" src="public/js/jquery/require-jquery-1.7.2.js"></script>
+	 <script type="text/template" id="recently_watch_item_tmpl">
+			<li class="span1">
+				<div class="thumbnail">
+					<img src="<%=box_art_medium%>" title="<%=title%>" />
+					<div class="caption">
+						<a href="#" class="btn pull-right add-movie" data-movie-id="<%=history_id%>">Add</a>
+					</div>
+				</div>
+			</li>
+	 </script>
+  </body>
+</html>
